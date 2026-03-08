@@ -6,9 +6,10 @@ public class PlayerMove : MonoBehaviour
     [Header("Speed")]
     public float speed;
     public float maxSpeed;
-    float startSpeed;
-    float startMaxSpeed;
-    bool sprinting;
+    public float startSpeed;
+    public float startMaxSpeed;
+    public bool sprinting;
+    public bool canSprint = true;
 
     [Header("FOV")]
     float baseFOV;
@@ -18,6 +19,7 @@ public class PlayerMove : MonoBehaviour
     [Header ("Objects & Components")]
     Rigidbody rb;
     Vector2 moveInput;
+    public Vector3 horizontalForce;
     Camera cam;
 
     private void Start()
@@ -52,7 +54,7 @@ public class PlayerMove : MonoBehaviour
         //player moves
         rb.AddRelativeForce(new Vector3(moveInput.x * speed, 0, moveInput.y * speed), ForceMode.Force);
 
-        Vector3 horizontalForce = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
+        horizontalForce = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z);
 
         //caps player speed
         if (horizontalForce.magnitude > maxSpeed)
@@ -71,7 +73,7 @@ public class PlayerMove : MonoBehaviour
 
     public void Sprint(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && canSprint)
         { 
             sprinting = true;
             speed = startSpeed * 1.5f;
