@@ -8,19 +8,23 @@ public class WallRun : MonoBehaviour
     public float rayCastDistance;
     public bool wallRunning;
     bool speedHasBecome0;
+    bool wallRunRightHit;
+    bool wallRunLeftHit;
 
     LayerMask wallRunLayer;
     Rigidbody rb;
+    GameObject cam;
     private void Start()
     {
         wallRunLayer = LayerMask.GetMask("wallrun");
         rb = GetComponent<Rigidbody>();
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
     private void Update()
     {
-        bool wallRunLeftHit = Physics.Raycast(transform.position, transform.right * -1f, rayCastDistance, wallRunLayer);
-        bool wallRunRightHit = Physics.Raycast(transform.position, transform.right, rayCastDistance, wallRunLayer);
+        wallRunLeftHit = Physics.Raycast(transform.position, transform.right * -1f, rayCastDistance, wallRunLayer);
+        wallRunRightHit = Physics.Raycast(transform.position, transform.right, rayCastDistance, wallRunLayer);
 
         Debug.DrawRay(transform.position, (transform.right * -1f) * rayCastDistance, Color.red);
         Debug.DrawRay(transform.position, transform.right * rayCastDistance, Color.red);

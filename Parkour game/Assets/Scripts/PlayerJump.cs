@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,7 +32,7 @@ public class PlayerJump : MonoBehaviour
 
         if (groundCheck)
         {
-            coll.material = floorMat;
+            StartCoroutine(ChangeMaterial());
             canJump = true;
         }
         else
@@ -56,5 +57,12 @@ public class PlayerJump : MonoBehaviour
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
             canJump = false;
         }
+    }
+
+    IEnumerator ChangeMaterial()
+    {
+        yield return new WaitForSeconds(1);
+
+        coll.material = floorMat;
     }
 }
