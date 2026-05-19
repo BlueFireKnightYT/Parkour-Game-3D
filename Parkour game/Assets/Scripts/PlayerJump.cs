@@ -32,12 +32,11 @@ public class PlayerJump : MonoBehaviour
 
         if (groundCheck)
         {
-            StartCoroutine(ChangeMaterial());
             canJump = true;
         }
         else
         {
-            coll.material = noFrictionMat;
+            
             if (!wallRun.wallRunning)
             {
                 canJump = false;
@@ -47,7 +46,15 @@ public class PlayerJump : MonoBehaviour
                 canJump = true;
             }
         }
-        Debug.Log(canJump);
+
+        if (wallRun.wallRunning)
+        {
+            coll.material = noFrictionMat;
+        }
+        else
+        {
+            coll.material = floorMat;
+        }
     }
 
     public void Jump(InputAction.CallbackContext context)
@@ -57,12 +64,5 @@ public class PlayerJump : MonoBehaviour
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
             canJump = false;
         }
-    }
-
-    IEnumerator ChangeMaterial()
-    {
-        yield return new WaitForSeconds(1);
-
-        coll.material = floorMat;
     }
 }
